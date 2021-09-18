@@ -1,0 +1,23 @@
+.node-container {
+    padding: 10px 10px 0px 10px;
+
+    img {
+        width: 20px;
+        height: 15px;
+    }
+
+    .node-children {
+        padding-left: 20px;
+    }
+
+    .btn {
+        background-color: black;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        padding: 2px 2px;
+        font-size: 10px;
+        margin-left: 3px;
+        cursor: pointer;
+    }
+}

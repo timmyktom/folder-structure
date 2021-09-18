@@ -1,0 +1,61 @@
+<div *ngIf="node" class="node-container">
+    <div (mouseenter)="showAction=!showAction" 
+        (mouseleave)="showAction=!showAction">
+        <ng-container 
+            [ngTemplateOutlet]="node.type == 'folder' ? folderType : fileType" 
+            [ngTemplateOutletContext]="{node:node}">
+        </ng-container>
+    </div>
+    
+
+    <div *ngIf="node.children && node.children.length" class="node-children">
+        <app-node *ngFor="let childNode of node.children" 
+                  [node]="childNode" 
+                  (nodeAddOrDeleteAction)="addOrDeleteNode($event)"></app-node>
+    </div>
+
+    <app-add-node *ngIf="showAddFolderFromNode"
+                  [showComponent]="showAddFolderFromNode" 
+                  [parentId]="node.id" 
+                  [type]="nodeType" 
+                  (addNodeAction)="addNodeAction($event)">
+    </app-add-node>
+</div>
+
+<ng-template #folderType let-node="node">
+    <img src="/assets/folder-open-regular.svg" class="node-folder" alt="Folder" aria-hidden="true"/>
+
+    <span>{{node.name}}</span>
+
+    <button *ngIf="showAction"
+            (click)="showAddFolderFromNode=true"
+            class="btn">
+        <i class="fa fa-plus"></i>
+    </button>
+
+    <button *ngIf="showAction"
+            (click)="addOrDeleteNode({
+                action: 'delete',
+                type: node.type,
+                id: node.id
+            })" 
+            class="btn">
+        <i class="fa fa-trash"></i>
+    </button>
+</ng-template>
+
+<ng-template #fileType let-node="node"> 
+    <img src="/assets/file-regular.svg" class="node-file" alt="File" aria-hidden="true"/>
+
+    <span>{{node.name}}</span>
+
+    <button *ngIf="showAction" 
+            (click)="addOrDeleteNode({
+                action: 'delete',
+                type: node.type,
+                id: node.id
+              })" 
+            class="btn">
+        <i class="fa fa-trash"></i>
+    </button>
+</ng-template>
